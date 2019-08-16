@@ -1,0 +1,12 @@
+resources:
+- deployment.yaml
+- pvc.yaml
+- service.yaml
+
+vars:
+- fieldref: {}
+  name: MYSQL_SERVICE
+  objref:
+    name: mysql
+    apiVersion: v1
+    kind: Service

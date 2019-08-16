@@ -1,0 +1,11 @@
+resources:
+- deployment.yaml
+- service.yaml
+
+vars:
+- fieldref: {}
+  name: OPENLDAP_SERVICE
+  objref:
+    name: openldap
+    apiVersion: v1
+    kind: Service

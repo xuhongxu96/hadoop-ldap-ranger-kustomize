@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: namenode
+spec:
+  selector:
+    matchLabels:
+      app: namenode
+  template:
+    metadata:
+      labels:
+        app: namenode
+    spec:
+      containers:
+      - name: namenode
+        image: uhopper/hadoop-namenode:2.8.1
+        env:
+          - name: CLUSTER_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: HDFS_CONF_hadoop_security_group_mapping_ldap_url
+            value: ldap://$(OPENLDAP_SERVICE)
+        envFrom:
+          - configMapRef:
+              name: hdfs-ldap
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 8020
+            name: fs
+          - containerPort: 50070
+            name: http
+          - containerPort: 50470
+            name: https
+          

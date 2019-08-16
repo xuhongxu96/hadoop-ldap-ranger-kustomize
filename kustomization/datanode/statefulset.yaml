@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: datanode
+spec:
+  serviceName: datanode
+  replicas: 3
+  selector:
+    matchLabels:
+      app: datanode
+  template:
+    metadata:
+      labels:
+        app: datanode
+    spec:
+      containers:
+      - name: datanode
+        image: uhopper/hadoop-datanode:2.8.1
+        env:
+          - name: CORE_CONF_fs_defaultFS
+            value: hdfs://$(NAMENODE_SERVICE):8020
+          - name: HDFS_CONF_dfs_datanode_address
+            value: 0.0.0.0:50010
+          - name: HDFS_CONF_dfs_datanode_ipc_address
+            value: 0.0.0.0:50020
+          - name: HDFS_CONF_dfs_datanode_http_address
+            value: 0.0.0.0:50075
+          - name: HDFS_CONF_hadoop_security_group_mapping_ldap_url
+            value: ldap://$(OPENLDAP_SERVICE)
+        envFrom:
+          - configMapRef:
+              name: hdfs-ldap
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 50010
+            name: data
+          - containerPort: 50020
+            name: ipc
+          - containerPort: 50075
+            name: http
+          

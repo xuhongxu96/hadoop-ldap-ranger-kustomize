@@ -1,0 +1,18 @@
+resources:
+- deployment.yaml
+- service.yaml
+- configmap.yaml
+
+vars:
+- fieldref: {}
+  name: CLUSTER_NAME
+  objref:
+    name: namenode
+    apiVersion: apps/v1
+    kind: Deployment
+- fieldref: {}
+  name: NAMENODE_SERVICE
+  objref:
+    name: namenode
+    apiVersion: v1
+    kind: Service

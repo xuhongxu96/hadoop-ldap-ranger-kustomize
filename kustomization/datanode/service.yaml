@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: datanode
+spec:
+  clusterIP: None
+  ports:
+  - name: data
+    port: 50010
+    targetPort: data
+  - name: ipc
+    port: 50020
+    targetPort: ipc
+  - name: http
+    port: 50075
+    targetPort: http
+  selector:
+    app: datanode
+  type: ClusterIP

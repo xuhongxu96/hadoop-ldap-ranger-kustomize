@@ -1,0 +1,6 @@
+resources:
+  - ./datanode
+  - ./namenode
+  - ./openldap
+
+namespace: cap

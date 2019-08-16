@@ -1,0 +1,17 @@
+resources:
+- statefulset.yaml
+- service.yaml
+
+vars:
+- fieldref: {}
+  name: DATANODE_STATEFULSET_NAME
+  objref:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: datanode
+- fieldref: {}
+  name: DATANODE_SERVICE
+  objref:
+    name: datanode
+    apiVersion: v1
+    kind: Service
