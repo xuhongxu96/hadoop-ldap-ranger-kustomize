@@ -1,4 +1,6 @@
 resources:
+  - ./mysql
+  - ./ranger-admin
   - ./datanode
   - ./namenode
   - ./openldap

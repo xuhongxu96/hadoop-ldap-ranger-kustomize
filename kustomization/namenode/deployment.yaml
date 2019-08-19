@@ -13,7 +13,8 @@ spec:
     spec:
       containers:
       - name: namenode
-        image: uhopper/hadoop-namenode:2.8.1
+        image: hadoop-namenode
+        imagePullPolicy: Never
         env:
           - name: CLUSTER_NAME
             valueFrom:
@@ -21,13 +22,11 @@ spec:
                 fieldPath: metadata.name
           - name: HDFS_CONF_hadoop_security_group_mapping_ldap_url
             value: ldap://$(OPENLDAP_SERVICE)
+          - name: POLICY_MGR_URL
+            value: http://$(RANGER_ADMIN_SERVICE):6080
         envFrom:
           - configMapRef:
               name: hdfs-ldap
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
         ports:
           - containerPort: 8020
             name: fs
@@ -35,4 +34,11 @@ spec:
             name: http
           - containerPort: 50470
             name: https
-          
+        volumeMounts:
+          - name: hdfs-name-pv
+            mountPath: /hadoop/dfs/name
+        resources:
+      volumes:
+        - name: hdfs-name-pv
+          persistentVolumeClaim:
+            claimName: hdfs-name-pvc

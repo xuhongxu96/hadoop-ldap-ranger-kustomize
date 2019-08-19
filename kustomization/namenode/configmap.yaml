@@ -3,6 +3,10 @@ kind: ConfigMap
 metadata:
   name: hdfs-ldap
 data:
+  CORE_CONF_hadoop_http_staticuser_user: admin
+
+  HDFS_CONF_dfs_namenode_acls_enabled: 'true'
+
   HDFS_CONF_hadoop_security_group_mapping: org.apache.hadoop.security.LdapGroupsMapping
   HDFS_CONF_hadoop_security_group_mapping_ldap_bind_user: cn=admin,dc=example,dc=org
   HDFS_CONF_hadoop_security_group_mapping_ldap_bind_password: admin
@@ -11,8 +15,3 @@ data:
   HDFS_CONF_hadoop_security_group_mapping_ldap_search_attr_group_name: cn
   HDFS_CONF_hadoop_security_group_mapping_ldap_search_filter_group: (objectClass=groupOfNames)
   HDFS_CONF_hadoop_security_group_mapping_ldap_search_filter_user: (\&amp;(objectClass=account)(uid={0}))
-
-
-
-
-

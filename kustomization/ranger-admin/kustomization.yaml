@@ -1,12 +1,12 @@
 resources:
-# - pvc.yaml
+- configmap.yaml
 - deployment.yaml
 - service.yaml
 
 vars:
 - fieldref: {}
-  name: OPENLDAP_SERVICE
+  name: RANGER_ADMIN_SERVICE
   objref:
-    name: openldap
+    name: ranger-admin
     apiVersion: v1
     kind: Service

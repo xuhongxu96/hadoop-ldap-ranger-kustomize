@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: datanode
-        image: uhopper/hadoop-datanode:2.8.1
+        image: hadoop-datanode
+        imagePullPolicy: Never
         env:
           - name: CORE_CONF_fs_defaultFS
             value: hdfs://$(NAMENODE_SERVICE):8020
@@ -30,10 +31,6 @@ spec:
         envFrom:
           - configMapRef:
               name: hdfs-ldap
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
         ports:
           - containerPort: 50010
             name: data
@@ -41,4 +38,16 @@ spec:
             name: ipc
           - containerPort: 50075
             name: http
-          
+        volumeMounts:
+          - name: hdfs-data-pv
+            mountPath: /hadoop/dfs/data
+  volumeClaimTemplates:
+    - metadata:
+        name: hdfs-data-pv
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: "hostpath"
+        resources:
+          requests:
+            storage: 10Gi
