@@ -22,16 +22,18 @@ spec:
             value: root
           - name: MYSQL_ROOT_PASSWORD
             value: password
+        ports:
+        - containerPort: 6080
+          name: http
+        resources:
       - name: ranger-usersync
         image: ranger-usersync
         imagePullPolicy: Never
         env:
           - name: SYNC_LDAP_URL
             value: ldap://$(OPENLDAP_SERVICE)
+          - name: POLICY_MGR_URL
+            value: http://localhost:6080
         envFrom:
           - configMapRef:
               name: ranger-usersync
-        ports:
-        - containerPort: 6080
-          name: http
-        resources:

@@ -21,7 +21,11 @@ spec:
           name: ldaps
         volumeMounts:
           - name: openldap-pv
+            mountPath: /etc/ldap/slapd.d
+            subPath: etc-ldap
+          - name: openldap-pv
             mountPath: /var/lib/ldap
+            subPath: var-ldap
         resources:
       volumes:
         - name: openldap-pv
